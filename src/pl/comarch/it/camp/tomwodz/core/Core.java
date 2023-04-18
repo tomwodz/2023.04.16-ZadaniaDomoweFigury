@@ -31,55 +31,57 @@ public class Core {
                         String[] figuresText = userNumbers.split(" ");
                         double[] figures = CoreEx.coreEx(figuresText);
 
-                        if (figuresText.length == 1) {
-                            Kolo kolo = new Kolo(i, figures);
-                            run = !(figuresDb.setFigures(kolo));
-                        } else if (figuresText.length == 3) {
-                            int v = VerTrojkat.verTrojkat(figures);
-                            if (v == 1) {
-                                TrojkatRownoBoczny trojkat = new TrojkatRownoBoczny(i, figures);
-                                run = !(figuresDb.setFigures(trojkat));
-                            } else if (v == 2) {
-                                TrojkatRownoRamienny trojkat = new TrojkatRownoRamienny(i, figures);
-                                run = !(figuresDb.setFigures(trojkat));
-                            } else if (v == 3) {
-                                TrojkatRoznoBoczny trojkat = new TrojkatRoznoBoczny(i, figures);
-                                run = !(figuresDb.setFigures(trojkat));
+                        if (figuresText.length >= 1 && figuresText.length <= 6
+                                && figuresText.length != 2) {
+
+                            if (figuresText.length == 1) {
+                                run = !(figuresDb.setFigures(new Kolo(i, figures)));
+                            } else if (Verfication.verEquilateral(figures)) {
+                                switch (figures.length) {
+                                    case 3:
+                                        run = !(figuresDb.setFigures(new TrojkatRownoBoczny(i, figures)));
+                                        break;
+                                    case 4:
+                                        run = !(figuresDb.setFigures(new Kwadrat(i, figures)));
+                                        break;
+                                    case 5:
+                                        run = !(figuresDb.setFigures(new PieciokatForemny(i, figures)));
+                                        break;
+                                    case 6:
+                                        run = !(figuresDb.setFigures(new SzesciokatForemny(i, figures)));
+                                        break;
+                                    default:
+                                }
+                            } else if (!(Verfication.verEquilateral(figures))) {
+                                switch (figures.length) {
+                                    case 3:
+                                        if (Verfication.verTriangleExists(figures)) {
+                                            if (Verfication.verIsosceles(figures)) {
+                                                run = !(figuresDb.setFigures(new TrojkatRownoRamienny(i, figures)));
+                                            } else {
+                                                run = !(figuresDb.setFigures(new TrojkatRoznoBoczny(i, figures)));
+                                            }
+                                        }
+                                        break;
+                                    case 4:
+                                        if (Verfication.verRectangle(figures)) {
+                                            run = !(figuresDb.setFigures(new Prostokat(i, figures)));
+                                        } else {
+                                            run = !(figuresDb.setFigures(new Czworokat(i, figures)));
+                                        }
+                                        break;
+                                    case 5:
+                                        run = !(figuresDb.setFigures(new Pieciokat(i, figures)));
+                                        break;
+                                    case 6:
+                                        run = !(figuresDb.setFigures(new Szesciokat(i, figures)));
+                                        break;
+                                    default:
+                                }
                             }
-                        } else if (figuresText.length == 4) {
-                            int v = VerCzworokat.VerCzworokat(figures);
-                            if (v == 1) {
-                                Kwadrat kwadrat = new Kwadrat(i, figures);
-                                run = !(figuresDb.setFigures(kwadrat));
-                            } else if (v == 2) {
-                                Prostokat prostokat = new Prostokat(i, figures);
-                                run = !(figuresDb.setFigures(prostokat));
-                            } else if (v == 3) {
-                                Czworokat prostokat = new Czworokat(i, figures);
-                                run = !(figuresDb.setFigures(prostokat));
-                            }
-                        } else if (figuresText.length == 5) {
-                            int v = VerPieciokat.VerPieciokat(figures);
-                            if (v == 1) {
-                                PieciokatForemny pieciokatForemny = new PieciokatForemny(i, figures);
-                                run = !(figuresDb.setFigures(pieciokatForemny));
-                            } else if (v == 2) {
-                                Pieciokat pieciokat = new Pieciokat(i, figures);
-                                run = !(figuresDb.setFigures(pieciokat));
-                            }
-                        } else if (figuresText.length == 5) {
-                            int v = VerSzesciokat.VerSzesciokat(figures);
-                            if (v == 1) {
-                                SzesciokatForemny szesciokatForemny = new SzesciokatForemny(i, figures);
-                                run = !(figuresDb.setFigures(szesciokatForemny));
-                            } else if (v == 2) {
-                                Szesciokat pieciokat = new Szesciokat(i, figures);
-                                run = !(figuresDb.setFigures(pieciokat));
-                            }
-                        } else if ((figuresText.length < 3 || figuresText.length > 7)) {
-                            System.out.println("Podaj odpowiednia dlugosc bokow!");
+
                         } else {
-                            run = false;
+                            System.out.println("Podaj odpowiednia ilosc bokow! 1 lub 3,4,5,6");
                         }
                     }
                 }
