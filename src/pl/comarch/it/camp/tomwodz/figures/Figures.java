@@ -60,7 +60,19 @@ public class Figures {
     }
 
     public double circuit(double[] tab){
-        double tabSum =  Arrays.stream(tab).sum();
-        return tabSum;
+        return Arrays.stream(tab).sum();
+    }
+
+    @Override
+    public String toString() {
+        return new StringBuilder()
+                .append(this.name)
+                .append(" Boki: ")
+                .append(Arrays.toString(tab))
+                .append(" Area: ")
+                .append(this.area)
+                .append(" Circuit: ")
+                .append(this.circuit)
+                .toString();
     }
 }
