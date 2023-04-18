@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 public class Verfication {
     public static boolean verEquilateral(double[] figures) {
+        Arrays.sort(figures);
         if (!(Arrays.stream(figures).sum() == figures.length * figures[0])) {
             return false;
         }
